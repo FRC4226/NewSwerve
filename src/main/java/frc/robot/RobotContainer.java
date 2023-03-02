@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -20,6 +21,8 @@ import frc.robot.commands.swervedrive2.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive2.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
 import java.io.File;
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -28,16 +31,44 @@ import java.io.File;
  */
 public class RobotContainer
 {
+// Driver Buttons
+  private JoystickButton a_xBox_Driver;
+  private JoystickButton b_xBox_Driver;
+  private JoystickButton x_xBox_Driver;
+  private JoystickButton y_xBox_Driver;
+  private JoystickButton lb_xBox_Driver;
+  private JoystickButton rb_xBox_Driver;
+  private JoystickButton r_Stick_Button_xbox_Driver;
+  private JoystickButton l_Stick_Button_xbox_Driver;
+  private JoystickButton start_xBox_Driver;
+  private JoystickButton reset_xBox_Driver;
+// Co-Pilot Sr. Homie Richard
+  private JoystickButton a_xBox_Richard;
+  private JoystickButton b_xBox_Richard;
+  private JoystickButton x_xBox_Richard;
+  private JoystickButton y_xBox_Richard;
+  private JoystickButton lb_xBox_Richard;
+  private JoystickButton rb_xBox_Richard;
+  private JoystickButton r_Stick_Button_xbox_Richard;
+  private JoystickButton l_Stick_Button_xbox_Richard;
+  private JoystickButton start_xBox_Richard;
+  private JoystickButton reset_xBox_Richard;
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
+                                                                         
+  public final Gripper m_gripper = new Gripper();
+  public final Tower m_Tower = new Tower();
+  public final Arm m_Arm = new Arm();
+  
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  CommandJoystick driverController = new CommandJoystick(1);
+  CommandJoystick driverController = new CommandJoystick(4);
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
+  XboxController RichardXbox = new XboxController(1);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -97,9 +128,37 @@ public class RobotContainer
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
+  //Driver Bindings
+    rb_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value);
+    rb_xBox_Driver.whileTrue(new Grip( m_gripper));
+    lb_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value);
+    lb_xBox_Driver.whileTrue(new GripOut(m_gripper));
+    a_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kA.value);
+    a_xBox_Driver.toggleOnTrue(new ArmPickup( m_Arm));
+
+   // lt_xBox_Driver = new XboxControllerAxisButton(m_Controller, XboxController.Axis.kLeftTrigger.value);
+   // lt_xBox_Driver.whileTrue(new GripOut(m_gripper));
+
+   // rt_xBox_Driver = new XboxControllerAxisButton(m_Controller, XboxController.Axis.kRightTrigger.value);
+   // rt_xBox_Driver.whileTrue(new Grip(m_gripper));
+
+   //Richard Bindings
+    a_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kA.value);
+    a_xBox_Richard.toggleOnTrue(new TowerScore(m_Tower));
+    b_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kB.value);
+    b_xBox_Richard.toggleOnTrue(new ArmScore(m_Arm));
+    x_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kX.value);
+    x_xBox_Richard.toggleOnTrue(new TowerMidScore(m_Tower));
+    
+    //rb_xBox_Richard = new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value);
+    //rb_xBox_Richard.whileTrue(new HighScore(m_Tower, m_Arm));
+    //lb_xBox_Richard = new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value);
+    //lb_xBox_Richard.whileTrue(new MidScore(m_Tower, m_Arm));
+
+   //Base Bindings (driver)
     new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-//    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    //new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 
   /**
