@@ -36,7 +36,7 @@ public class SwerveController
   /**
    * {@link SlewRateLimiter} for angular movement in radians/second.
    */
-  public        SlewRateLimiter               angleLimiter = null;
+  public        SlewRateLimiter               angleLimiter;
 
   /**
    * Construct the SwerveController object which is used for determining the speeds of the robot based on controller

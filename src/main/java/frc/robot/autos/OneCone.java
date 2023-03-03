@@ -9,6 +9,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -27,7 +28,7 @@ import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
 
 import java.util.List;
 
-public class OneCone extends SequentialCommandGroup {
+public class OneCone extends ParallelCommandGroup {
   public OneCone(SwerveSubsystem swerve, Tower m_Tower, Arm m_Arm, Gripper m_Gripper) {
   
     addCommands(

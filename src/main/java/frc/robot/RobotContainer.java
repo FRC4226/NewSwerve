@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.autos.OneCone;
 import frc.robot.commands.swervedrive2.auto.Autos;
 import frc.robot.commands.swervedrive2.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive2.drivebase.AbsoluteFieldDrive;
@@ -171,7 +172,7 @@ public class RobotContainer
   {
     // An example command will be run in autonomous
     //return Autos.exampleAuto(drivebase);
-    return Autos.driveAndSpin(drivebase, m_Tower, m_Arm, m_gripper);
+    return new OneCone(drivebase, m_Tower, m_Arm, m_gripper);
   }
 
   public void setDriveMode()
