@@ -114,7 +114,8 @@ public class RobotContainer
         () -> (Math.abs(driverController.getX()) > OperatorConstants.LEFT_X_DEADBAND) ? driverController.getX() : 0,
         () -> -driverController.getRawAxis(3), () -> true, false, true);
 
-    drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
+    //drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
+    drivebase.setDefaultCommand(closedAbsoluteDrive);
   }
 
   /**
@@ -156,9 +157,9 @@ public class RobotContainer
     //lb_xBox_Richard.whileTrue(new MidScore(m_Tower, m_Arm));
 
    //Base Bindings (driver)
-    new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(driverXbox, 3).onTrue((new InstantCommand(drivebase::zeroGyro)));
     //new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    //new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 
   /**
@@ -169,7 +170,8 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(drivebase);
+    //return Autos.exampleAuto(drivebase);
+    return Autos.driveAndSpin(drivebase, m_Tower, m_Arm, m_gripper);
   }
 
   public void setDriveMode()

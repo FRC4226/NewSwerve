@@ -18,7 +18,8 @@ public class HighScore extends SequentialCommandGroup {
   public HighScore(Tower m_Tower, Arm m_Arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new TowerScore(m_Tower).withTimeout(.5), 
+    addCommands(new TowerScore(m_Tower),
+    //withTimeout(.5), 
                 new ArmScore(m_Arm));
                /* parallel(new SpinFlywheels(() -> .18, () -> .61, shootBall).withTimeout(5),
                           sequence(new WaitCommand(2),

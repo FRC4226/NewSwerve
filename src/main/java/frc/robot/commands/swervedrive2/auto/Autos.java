@@ -20,10 +20,15 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.Auton;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Gripper;
+import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
 import java.util.HashMap;
 import java.util.List;
+import frc.robot.commands.*;
 
 public final class Autos
 {
@@ -38,10 +43,15 @@ public final class Autos
     throw new UnsupportedOperationException("This is a utility class!");
   }
 
-  public static CommandBase driveAndSpin(SwerveSubsystem swerve)
+  public static CommandBase driveAndSpin(SwerveSubsystem swerve, Tower m_Tower, Arm m_Arm, Gripper m_gripper)
   {
-    return Commands.sequence(
-        new RepeatCommand(new InstantCommand(() -> swerve.drive(new Translation2d(1, 0), 5, true, true), swerve)));
+    return Commands.parallel(
+        new TowerScore(m_Tower),
+        new WaitCommand(3).andThen(new ArmScore(m_Arm)),
+        new WaitCommand(5).andThen(new GripOut(m_gripper).withTimeout(.25)),
+        new WaitCommand(7).andThen(new ArmStore(m_Arm)),
+        new WaitCommand(9).andThen(new TowerStore(m_Tower)),
+        new WaitCommand(11).andThen(new RepeatCommand(new InstantCommand(() -> swerve.drive(new Translation2d(-3, 0), 0, true, true), swerve))));
   }
 
   /**
@@ -127,5 +137,8 @@ public final class Autos
                                                                                      .toTranslation2d().plus(offset),
                                                                         rotation, holonomicRotation));
     return Commands.sequence(new FollowTrajectory(swerve, path, false));
+
   }
-}
+  
+  }
+

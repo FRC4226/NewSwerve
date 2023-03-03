@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
 import java.util.List;
 import java.util.function.DoubleSupplier;
@@ -75,9 +76,17 @@ public class AbsoluteFieldDrive extends CommandBase
     SmartDashboard.putNumber("LimitedTranslation", translation.getX());
     SmartDashboard.putString("Translation", translation.toString());
 
+     //our calculation for manual rotation
+   // double zrotation = 0;
+   // double rightrotation = RobotContainer.driverXbox.getRightX();
+   // if (rightrotation>.4 || rightrotation<-.4)
+   //   rightrotation*=.9;
+   // else
+   //   rightrotation = 0;
+
     // Make the robot move
     swerve.drive(translation, desiredSpeeds.omegaRadiansPerSecond, true, isOpenLoop);
-
+   // swerve.drive(translation, rightrotation, true, isOpenLoop);
   }
 
   // Called once the command ends or is interrupted.

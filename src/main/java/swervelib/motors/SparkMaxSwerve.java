@@ -50,6 +50,7 @@ public class SparkMaxSwerve extends SwerveMotor
     this.isDriveMotor = isDriveMotor;
     factoryDefaults();
     clearStickyFaults();
+    
 
     encoder = motor.getEncoder();
     pid = motor.getPIDController();
