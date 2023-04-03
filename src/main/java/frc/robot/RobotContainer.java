@@ -133,8 +133,8 @@ public class RobotContainer
     rb_xBox_Driver.whileTrue(new Grip( m_gripper));
     lb_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value);
     lb_xBox_Driver.whileTrue(new GripOut(m_gripper));
-    a_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kA.value);
-    a_xBox_Driver.toggleOnTrue(new ArmPickup( m_Arm));
+   // a_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kA.value);
+   // a_xBox_Driver.toggleOnTrue(new ArmPickup( m_Arm));
 
    // lt_xBox_Driver = new XboxControllerAxisButton(m_Controller, XboxController.Axis.kLeftTrigger.value);
    // lt_xBox_Driver.whileTrue(new GripOut(m_gripper));
