@@ -84,10 +84,10 @@ public class RobotContainer
                                                           // controls are front-left positive
                                                           () -> (Math.abs(driverXbox.getLeftY()) >
                                                                  OperatorConstants.LEFT_Y_DEADBAND)
-                                                                ? driverXbox.getLeftY() : 0,
+                                                                ? driverXbox.getLeftY() *-1 : 0,
                                                           () -> (Math.abs(driverXbox.getLeftX()) >
                                                                  OperatorConstants.LEFT_X_DEADBAND)
-                                                                ? driverXbox.getLeftX() : 0,
+                                                                ? driverXbox.getLeftX() *-1 : 0,
                                                           () -> -driverXbox.getRightX(),
                                                           () -> -driverXbox.getRightY(),
                                                           false);
@@ -133,9 +133,10 @@ public class RobotContainer
     rb_xBox_Driver.whileTrue(new Grip( m_gripper));
     lb_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value);
     lb_xBox_Driver.whileTrue(new GripOut(m_gripper));
-   // a_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kA.value);
-   // a_xBox_Driver.toggleOnTrue(new ArmPickup( m_Arm));
-
+    a_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kA.value);
+    a_xBox_Driver.toggleOnTrue(new ArmPickup( m_Arm));
+    new JoystickButton(driverXbox, XboxController.Button.kX.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
    // lt_xBox_Driver = new XboxControllerAxisButton(m_Controller, XboxController.Axis.kLeftTrigger.value);
    // lt_xBox_Driver.whileTrue(new GripOut(m_gripper));
 
@@ -149,16 +150,17 @@ public class RobotContainer
     b_xBox_Richard.toggleOnTrue(new ArmScore(m_Arm));
     x_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kX.value);
     x_xBox_Richard.toggleOnTrue(new TowerMidScore(m_Tower));
-    
+    y_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kY.value);
+    y_xBox_Richard.toggleOnTrue(new TowerPickup(m_Tower));
     //rb_xBox_Richard = new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value);
     //rb_xBox_Richard.whileTrue(new HighScore(m_Tower, m_Arm));
     //lb_xBox_Richard = new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value);
     //lb_xBox_Richard.whileTrue(new MidScore(m_Tower, m_Arm));
 
    //Base Bindings (driver)
-    new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+   
     //new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    
   }
 
   /**

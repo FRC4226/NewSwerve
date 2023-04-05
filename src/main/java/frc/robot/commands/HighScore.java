@@ -13,12 +13,12 @@ import frc.robot.subsystems.Tower;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class HighScore extends SequentialCommandGroup {
+public class HighScore extends ParallelCommandGroup {
   /** Creates a new Auto_basic_Shoot_Drive. */
   public HighScore(Tower m_Tower, Arm m_Arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new TowerScore(m_Tower).withTimeout(.5), 
+    addCommands(new TowerScore(m_Tower), 
                 new ArmScore(m_Arm));
                /* parallel(new SpinFlywheels(() -> .18, () -> .61, shootBall).withTimeout(5),
                           sequence(new WaitCommand(2),
