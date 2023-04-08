@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.Auton;
 import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
 import java.util.HashMap;
@@ -49,18 +50,24 @@ public final class Autos
    */
   public static CommandBase exampleAuto(SwerveSubsystem swerve)
   {
-    boolean               onTheFly = false; // Use the path defined in code or loaded from PathPlanner.
+    boolean               onTheFly = true; // Use the path defined in code or loaded from PathPlanner.
     PathPlannerTrajectory example;
     if (onTheFly)
     {
       // Simple path with holonomic rotation. Stationary start/end. Max velocity of 4 m/s and max accel of 3 m/s^2
       example = PathPlanner.generatePath(
-          new PathConstraints(4, 3),
+          new PathConstraints(1.5, 1),//4, 3
           new PathPoint(new Translation2d(0, 0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
 // position, heading(direction of travel), holonomic rotation
-          new PathPoint(new Translation2d(3, 5), Rotation2d.fromDegrees(90), Rotation2d.fromDegrees(90)),
+          new PathPoint(new Translation2d(-1, 0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
 // position, heading(direction of travel), holonomic rotation
-          new PathPoint(new Translation2d(5, 5), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
+          new PathPoint(new Translation2d(-2, 0), Rotation2d.fromDegrees(180), Rotation2d.fromDegrees(180)),
+
+          new PathPoint(new Translation2d(-4.25, 0), Rotation2d.fromDegrees(180), Rotation2d.fromDegrees(180)),
+
+          new PathPoint(new Translation2d(-1, 0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+
+          new PathPoint(new Translation2d(-0.11, -0.2), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
           // position, heading(direction of travel), holonomic rotation
                                         );
     } else

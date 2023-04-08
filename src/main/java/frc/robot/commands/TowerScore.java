@@ -55,7 +55,7 @@ public class TowerScore extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_tower.setReference(27);
+        m_tower.setReference(29);
     }
 
     // Called once the command ends or is interrupted.

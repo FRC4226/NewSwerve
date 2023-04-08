@@ -23,6 +23,7 @@ import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
 import java.io.File;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.commands.Auto.TwoAuto;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -58,7 +59,7 @@ public class RobotContainer
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
                                                                          
-  public final Gripper m_gripper = new Gripper();
+  public final Gripper m_Gripper = new Gripper();
   public final Tower m_Tower = new Tower();
   public final Arm m_Arm = new Arm();
   
@@ -130,9 +131,9 @@ public class RobotContainer
 
   //Driver Bindings
     rb_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value);
-    rb_xBox_Driver.whileTrue(new Grip( m_gripper));
+    rb_xBox_Driver.whileTrue(new Grip( m_Gripper));
     lb_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value);
-    lb_xBox_Driver.whileTrue(new GripOut(m_gripper));
+    lb_xBox_Driver.whileTrue(new GripOut(m_Gripper));
     a_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kA.value);
     a_xBox_Driver.toggleOnTrue(new ArmPickup( m_Arm));
     new JoystickButton(driverXbox, XboxController.Button.kX.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
@@ -170,8 +171,10 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
+
+    return new TwoAuto(drivebase, m_Tower, m_Arm, m_Gripper);
     // An example command will be run in autonomous
-    return Autos.exampleAuto(drivebase);
+  // return Autos.exampleAuto(drivebase);
   }
 
   public void setDriveMode()
