@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.ArmScore;
 import frc.robot.commands.ArmStore;
+import frc.robot.commands.Grip;
 import frc.robot.commands.GripOut;
 import frc.robot.commands.HighScore;
 import frc.robot.commands.TowerScore;
@@ -30,15 +31,17 @@ import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
 
 import java.util.List;
 
-public class TwicePieceDrive extends ParallelCommandGroup {
-  public TwicePieceDrive(SwerveSubsystem drivebase, Arm m_Arm, Gripper m_Gripper) {
+public class TwoAutoRight extends SequentialCommandGroup {
+  public TwoAutoRight(SwerveSubsystem drivebase, Tower m_Tower, Arm m_Arm, Gripper m_Gripper) {
+
+
     addCommands(
-      Autos.exampleAuto(drivebase),
-      new WaitCommand(2).andThen(new ArmPickup(m_Arm)).withTimeout(4),
-      new WaitCommand(2).andThen(new GripOut(m_Gripper)).withTimeout(4));
-     
-     
-     
+      new ScoreAuto(drivebase, m_Tower, m_Arm, m_Gripper),
+      new WaitCommand(0.3).andThen(new TwicePieceDriveRight(drivebase, m_Arm, m_Gripper)),
+      new MidCubeAuto(m_Gripper, m_Tower));
+      // new Grip(m_Gripper).withTimeout(3));
+      
+
     
   }
 }

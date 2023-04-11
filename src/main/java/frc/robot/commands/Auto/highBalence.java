@@ -22,12 +22,14 @@ import frc.robot.commands.GripOut;
 import frc.robot.commands.HighScore;
 import frc.robot.commands.TowerScore;
 import frc.robot.commands.TowerStore;
+import frc.robot.commands.swervedrive2.auto.AutoBalanceCommand;
 import frc.robot.commands.swervedrive2.auto.Autos;
 import frc.robot.commands.ArmPickup;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
+import swervelib.SwerveDrive;
 
 import java.util.List;
 
@@ -35,9 +37,9 @@ public class highBalence extends SequentialCommandGroup {
   public highBalence(SwerveSubsystem drivebase, Tower m_Tower, Arm m_Arm, Gripper m_Gripper) {
     addCommands(
       new ScoreAuto(drivebase, m_Tower, m_Arm, m_Gripper),
-      new TwicePieceDrive(drivebase, m_Arm, m_Gripper),
-      new Grip(m_Gripper));
-      
+      new WaitCommand(.3).andThen(Autos.MidBalence(drivebase)),
+     // new InstantCommand((drivebase::balanceRobot)));
+      new AutoBalanceCommand(drivebase));
 
     
   }

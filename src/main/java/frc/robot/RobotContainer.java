@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
@@ -23,7 +25,11 @@ import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
 import java.io.File;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.commands.Auto.TwoAuto;
+import frc.robot.commands.Auto.ScoreAuto;
+import frc.robot.commands.Auto.ScoreReverse;
+import frc.robot.commands.Auto.TwoAutoLeft;
+import frc.robot.commands.Auto.TwoAutoRight;
+import frc.robot.commands.Auto.highBalence;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -71,6 +77,7 @@ public class RobotContainer
   XboxController driverXbox = new XboxController(0);
   XboxController RichardXbox = new XboxController(1);
 
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -116,6 +123,13 @@ public class RobotContainer
         () -> -driverController.getRawAxis(3), () -> true, false, true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
+
+    m_chooser.addOption("Potato", new ScoreAuto(drivebase, m_Tower, m_Arm, m_Gripper));
+    m_chooser.addOption("Score and Back Up", new ScoreReverse(drivebase, m_Tower, m_Arm, m_Gripper));
+    m_chooser.addOption("Right Two Right", new TwoAutoRight(drivebase, m_Tower, m_Arm, m_Gripper));
+    m_chooser.addOption("Left Two Left", new TwoAutoLeft(drivebase, m_Tower, m_Arm, m_Gripper));
+    m_chooser.setDefaultOption("High Balance", new highBalence(drivebase, m_Tower, m_Arm, m_Gripper));
+    SmartDashboard.putData("Auto Mode", m_chooser);
   }
 
   /**
@@ -136,6 +150,8 @@ public class RobotContainer
     lb_xBox_Driver.whileTrue(new GripOut(m_Gripper));
     a_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kA.value);
     a_xBox_Driver.toggleOnTrue(new ArmPickup( m_Arm));
+    b_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kB.value);
+    b_xBox_Driver.toggleOnTrue(new ArmSideLoad(m_Arm));
     new JoystickButton(driverXbox, XboxController.Button.kX.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
    // lt_xBox_Driver = new XboxControllerAxisButton(m_Controller, XboxController.Axis.kLeftTrigger.value);
@@ -171,8 +187,10 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-
-    return new TwoAuto(drivebase, m_Tower, m_Arm, m_Gripper);
+      return m_chooser.getSelected();
+      
+   // return new TwoAuto(drivebase, m_Tower, m_Arm, m_Gripper);
+    //return new highBalence(drivebase, m_Tower, m_Arm, m_Gripper);
     // An example command will be run in autonomous
   // return Autos.exampleAuto(drivebase);
   }

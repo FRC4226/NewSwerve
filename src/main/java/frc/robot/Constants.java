@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -26,10 +27,9 @@ public final class Constants
 
   public static final class Auton
   {
-
     public static final PIDFConfig xAutoPID     = new PIDFConfig(0.7, 0, 0);
     public static final PIDFConfig yAutoPID     = new PIDFConfig(0.7, 0, 0);
-    public static final PIDFConfig angleAutoPID = new PIDFConfig(0.4, 0, 0.01);
+    public static final PIDFConfig angleAutoPID = new PIDFConfig(0.5, 0, 0.005);
 
     public static final double MAX_SPEED        = 4;
     public static final double MAX_ACCELERATION = 2;

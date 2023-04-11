@@ -59,11 +59,11 @@ armMotor = new CANSparkMax(32, MotorType.kBrushless);
     m_armEncoder = armMotor.getEncoder();
 
   // PID coefficients
-  kP = 6e-5; 
+  kP = 7e-5; //was 6
   kI = 1e-6;
   kD = 0; 
   kIz = 0; 
-  kFF = 0.0006; 
+  kFF = 0.0008; //was 7
   kMaxOutput = 1; 
   kMinOutput = -1;
   maxRPM = 5700;

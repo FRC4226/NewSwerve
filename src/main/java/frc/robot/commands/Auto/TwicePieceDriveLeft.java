@@ -17,11 +17,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.ArmScore;
 import frc.robot.commands.ArmStore;
-import frc.robot.commands.Grip;
 import frc.robot.commands.GripOut;
 import frc.robot.commands.HighScore;
 import frc.robot.commands.TowerScore;
 import frc.robot.commands.TowerStore;
+import frc.robot.commands.swervedrive2.auto.Autos;
 import frc.robot.commands.ArmPickup;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Gripper;
@@ -30,16 +30,13 @@ import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
 
 import java.util.List;
 
-public class ScoreAuto extends ParallelCommandGroup {
-  public ScoreAuto(SwerveSubsystem drivebase, Tower m_Tower, Arm m_Arm, Gripper m_Gripper) {
-
-
+public class TwicePieceDriveLeft extends ParallelCommandGroup {
+  public TwicePieceDriveLeft(SwerveSubsystem drivebase, Arm m_Arm, Gripper m_Gripper) {
     addCommands(
-      new InstantCommand(drivebase::zeroGyro),
-      new TowerScore(m_Tower).withTimeout(3.65),// 9
-      new WaitCommand(.5).andThen(new ArmScore(m_Arm)).withTimeout(3.15), //7
-      new WaitCommand(2).andThen(new Grip(m_Gripper).withTimeout(.4)));
-      // new WaitCommand(2).andThen(new GripOut(m_Gripper).withTimeout(.4)));
+      Autos.TwoAutoleft(drivebase),
+      new WaitCommand(2).andThen(new ArmPickup(m_Arm)).withTimeout(4),
+      new WaitCommand(2).andThen(new GripOut(m_Gripper)).withTimeout(4.5));
+     
      
      
     
