@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive2.auto.Autos;
 import frc.robot.commands.swervedrive2.drivebase.AbsoluteDrive;
@@ -49,6 +50,7 @@ public class RobotContainer
   private JoystickButton l_Stick_Button_xbox_Driver;
   private JoystickButton start_xBox_Driver;
   private JoystickButton reset_xBox_Driver;
+
 // Co-Pilot Sr. Homie Richard
   private JoystickButton a_xBox_Richard;
   private JoystickButton b_xBox_Richard;
@@ -76,6 +78,11 @@ public class RobotContainer
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
   XboxController RichardXbox = new XboxController(1);
+
+  public POVButton UP = new POVButton(driverXbox, 0);
+	public POVButton DOWN = new POVButton(driverXbox, 180);
+	public POVButton LEFT = new POVButton(driverXbox, 270);
+	public POVButton RIGHT = new POVButton(driverXbox, 90);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   /**
@@ -154,6 +161,8 @@ public class RobotContainer
     b_xBox_Driver.toggleOnTrue(new ArmSideLoad(m_Arm));
     new JoystickButton(driverXbox, XboxController.Button.kX.value).onTrue((new InstantCommand(drivebase::zeroGyro)));
     new JoystickButton(driverXbox, XboxController.Button.kStart.value).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+
+    RIGHT.onTrue((new RotationCommand(drivebase)));
    // lt_xBox_Driver = new XboxControllerAxisButton(m_Controller, XboxController.Axis.kLeftTrigger.value);
    // lt_xBox_Driver.whileTrue(new GripOut(m_gripper));
 

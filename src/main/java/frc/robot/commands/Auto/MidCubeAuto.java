@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.ArmScore;
+import frc.robot.commands.ArmSideLoad;
 import frc.robot.commands.ArmStore;
 import frc.robot.commands.Grip;
 import frc.robot.commands.GripOut;
@@ -33,9 +34,10 @@ import frc.robot.subsystems.swervedrive2.SwerveSubsystem;
 import java.util.List;
 
 public class MidCubeAuto extends ParallelCommandGroup {
-  public MidCubeAuto(Gripper m_Gripper, Tower m_Tower) {
+  public MidCubeAuto(Gripper m_Gripper, Tower m_Tower, Arm m_Arm) {
     addCommands(
       new TowerMidCube(m_Tower).withTimeout(4),
+      new WaitCommand(0.5).andThen(new ArmSideLoad(m_Arm)).withTimeout(3),
       new WaitCommand(1.3).andThen(new Grip(m_Gripper)).withTimeout(4));
      
      

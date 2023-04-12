@@ -38,7 +38,7 @@ public class TwoAutoLeft extends SequentialCommandGroup {
     addCommands(
       new ScoreAuto(drivebase, m_Tower, m_Arm, m_Gripper),
       new WaitCommand(0.3).andThen(new TwicePieceDriveLeft(drivebase, m_Arm, m_Gripper)),
-      new MidCubeAuto(m_Gripper, m_Tower));
+      new MidCubeAuto(m_Gripper, m_Tower, m_Arm));
       // new Grip(m_Gripper).withTimeout(3));
       
 
