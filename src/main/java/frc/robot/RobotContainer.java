@@ -68,6 +68,7 @@ public class RobotContainer
   public final Gripper m_Gripper = new Gripper();
   public final Tower m_Tower = new Tower();
   public final Arm m_Arm = new Arm();
+  public final Blinkin m_Blinkin = new Blinkin(1);
   
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -128,7 +129,7 @@ public class RobotContainer
     m_chooser.addOption("Score and Back Up", new ScoreReverse(drivebase, m_Tower, m_Arm, m_Gripper));
     m_chooser.addOption("Right Two Right", new TwoAutoRight(drivebase, m_Tower, m_Arm, m_Gripper));
     m_chooser.addOption("Left Two Left", new TwoAutoLeft(drivebase, m_Tower, m_Arm, m_Gripper));
-    m_chooser.setDefaultOption("High Balance", new highBalence(drivebase, m_Tower, m_Arm, m_Gripper));
+    m_chooser.setDefaultOption("High Balance", new highBalence(drivebase, m_Tower, m_Arm, m_Gripper, m_Blinkin));
     SmartDashboard.putData("Auto Mode", m_chooser);
   }
 
@@ -169,10 +170,11 @@ public class RobotContainer
     x_xBox_Richard.toggleOnTrue(new TowerMidScore(m_Tower));
     y_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kY.value);
     y_xBox_Richard.toggleOnTrue(new TowerPickup(m_Tower));
-    //rb_xBox_Richard = new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value);
-    //rb_xBox_Richard.whileTrue(new HighScore(m_Tower, m_Arm));
-    //lb_xBox_Richard = new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value);
-    //lb_xBox_Richard.whileTrue(new MidScore(m_Tower, m_Arm));
+
+    rb_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kRightBumper.value);
+    rb_xBox_Richard.toggleOnTrue(new InstantCommand(m_Blinkin::Cone));
+    lb_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kLeftBumper.value);
+    lb_xBox_Richard.toggleOnTrue(new InstantCommand(m_Blinkin::Cube));
 
    //Base Bindings (driver)
    

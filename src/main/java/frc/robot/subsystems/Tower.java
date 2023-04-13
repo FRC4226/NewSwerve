@@ -60,7 +60,7 @@ rightMotor.follow(leftMotor, true);
 
 kP = 5e-5; 
 kI = 1e-6;
-kD = 0.0001; 
+kD = 0.0005; 
 kIz = 0; 
 kFF = 0.002; 
 kMaxOutput = 1; 
